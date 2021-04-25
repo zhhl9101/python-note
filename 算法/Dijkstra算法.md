@@ -24,9 +24,11 @@
 有权图对应的是无权图，这里的**权**指的是权重，权重可以理解为**代价**。现实中，代价可以指两个城市之间的距离，也可以指从一个城市去到另一个城市的花费，等等。比如：从西安到北京的距离是1100km，我们就可以表示为西安到北京的权重为1100。
 
 无向图如下所示：
+
  <img src="..\pictures\no-weight.png" title="无向图" width="400px" height="200px">
 &nbsp;
 有向图如下所示：
+
  <img src="..\pictures\weight.png" title="有向图" width="400px" height="200px">
 
 
