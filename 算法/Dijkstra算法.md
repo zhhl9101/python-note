@@ -26,7 +26,6 @@
 无权图如下所示：
 
  <img src="..\pictures\no-weight.png" title="无权图" width="400px" height="200px">
-&nbsp;
 
 有权图如下所示：
 
