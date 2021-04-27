@@ -68,9 +68,28 @@
 
 2）开始遍历。
 
-step1: 从queue_list里拿出第一个点(A, 0), 将A加入到visited_list里表示走过了，即visited_list=[ A ]。
+ <img src="..\pictures\weight.png" title="有权图" width="400px" height="200px">
 
-step2: 获取和A相连的点，即B,C。
+step1: 从queue_list里取出队首点(A, 0)， 将A加入到visited_list里表示走过了，即visited_list=[ A ]。
+
+step2: 获取和A相连的点，即B,C。并计算从A到B和C的距离，即(B, 5)和(C, 1)。接下来做3个操作：
+
+​			a) 将2个点加入到queue_list，即queue_list=[ (B, 5), (C, 1) ] (**不准确**)
+
+​			b) 将2个点加入到parent_dict，即parent_dict={ A:None, B:A, C:A }
+
+​			c) 将2个点加入到distance_dict，即distance_dict={ A:0, B:5, C:1 }
+
+说明:   调整queue_list，怎么调整呢？按距离从小到大排序，距离小的放在队首，距离大的放在队尾。具体怎么实现不用我们去写代码，			每个语言都有**堆**这种数据结构的实现，我们直接拿来用就行了。其实，在step2中将(B, 5)和(C, 1)加入queue_list时就已经自动排好			了 ，此时queue_list=[ (C, 1), (B, 5) ] (**准确**)
+
+| 变量          | 值         | 说明                            |
+| :------------ | ---------- | --------------------------------|
+| queue_list    | [ (C, 1), (B, 5) ] | 用堆结构排好序 |
+| visited_list  | [ A ]      | 已经走过的点，目前只有A |
+| parent_dict   | { A:None, B:A, C:A } | B,C点的爸爸**暂时**是A |
+| distance_dict | { A:0, B:5, C:1 } | A到B和C点的距离**暂时**是5和1 |
+
+step3: 继续从queue_list里取出队首点(C, 1)
 
 ---
 
