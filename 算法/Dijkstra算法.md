@@ -118,45 +118,45 @@ step5: 继续从queue_list里取出队首点(B, 3)， 以此类推，直到遍�
 from queue import PriorityQueue
 
 def init_distence(graph, s):
-	distance_dict = {}
-	for vert in graph:
-		distance_dict[vert] = float('inf') if vert != s else 0
-	return distance_dict
+    distance_dict = {}
+    for vert in graph:
+        distance_dict[vert] = float('inf') if vert != s else 0
+    return distance_dict
 
 def dijkstra(graph, s):
-	queue_list = PriorityQueue()
-	queue_list.put((0,s))
-	visited_list = set()
-	parent_dict = {s:None}
-	distance_dict = init_distence(graph, s)
+    queue_list = PriorityQueue()
+    queue_list.put((0,s))
+    visited_list = set()
+    parent_dict = {s:None}
+    distance_dict = init_distence(graph, s)
 
-	while queue_list.qsize() > 0:
-		dis, point = queue_list.get()
-		if point not in visited_list:
-			visited_list.add(point)
-			
-			nodes = graph[point]
-			for node in nodes:
-				if node not in visited_list:
-					now_dist = dis + graph[point][node]
-					if now_dist < distance_dict[node]:
-						queue_list.put((now_dist,node))
-						parent_dict[node] = point
-						distance_dict[node] = now_dist
-	return parent_dict, distance_dict
+    while queue_list.qsize() > 0:
+        dis, point = queue_list.get()
+        if point not in visited_list:
+            visited_list.add(point)
+            
+            nodes = graph[point]
+            for node in nodes:
+                if node not in visited_list:
+                    now_dist = dis + graph[point][node]
+                    if now_dist < distance_dict[node]:
+                        queue_list.put((now_dist,node))
+                        parent_dict[node] = point
+                        distance_dict[node] = now_dist
+    return parent_dict, distance_dict
 
 if __name__=='__main__':
-	graph = {
-		'A':{'B':5,'C':1},
-		'B':{'A':5,'C':2,'D':1},
-		'C':{'A':1,'B':2,'D':4,'E':8},
-		'D':{'B':1,'C':4,'E':3,'F':6},
-		'E':{'C':8,'D':3},
-		'F':{'D':6}
-		}
-	parent, distence = dijkstra(graph, 'A')
-	print(parent)
-	print(distence)
+    graph = {
+        'A':{'B':5,'C':1},
+        'B':{'A':5,'C':2,'D':1},
+        'C':{'A':1,'B':2,'D':4,'E':8},
+        'D':{'B':1,'C':4,'E':3,'F':6},
+        'E':{'C':8,'D':3},
+        'F':{'D':6}
+        }
+    parent, distence = dijkstra(graph, 'A')
+    print(parent)
+    print(distence)
 ```
 
 ---
