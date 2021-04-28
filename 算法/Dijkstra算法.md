@@ -53,18 +53,20 @@
 
 &nbsp;
 
+所以，最后我们只需要2个结果，**parent_dict**和**distance_dict**。
+
 于是，张三 开始模拟算法流程：
 
-0）定义一个列表list存储未走到的城市，即**queue_list**；定义一个列表list(或集合set)存储已经走过的城市，防止走第2遍，即**visited_list**。
+0）定义一个列表list存储未走到的城市，即**queue_list**；定义一个列表list(或集合set)存储已经走过的城市，防止走第2遍，即**visited_list**。这2个变量只是中间变量，我们可以不用太关心值的变化
 
 1）初始化
 
 | 变量          | 值         | 说明                            |
 | :------------ | ---------- | --------------------------------|
-| queue_list    | [ (A, 0) ] | 待访问的点目前只有A, A到A的距离是0 |
+| queue_list    | [ (A, 0) ] | 待访问的点是A, 起点A到点A的距离是0 |
 | visited_list  | [ ]        | 已经走过的点，目前还没有          |
-| parent_dict   | { A:None } | 起点A没有爸爸                    |
-| distance_dict | { A:0 }    | 起点A到A的距离是0                |
+| **parent_dict** | { A:None } | 起点A没有爸爸                    |
+| **distance_dict** | { A:0 }    | 起点A到A的距离是0                |
 
 2）开始遍历。
 
@@ -80,20 +82,82 @@ step2: 获取和A相连的点，即B,C。并计算从A到B和C的距离，即(B,
 
 - 将2个点加入到distance_dict，即distance_dict={ A:0, B:5, C:1 }
 
-说明:   调整queue_list，怎么调整呢？按距离从小到大排序，距离小的放在队首，距离大的放在队尾。具体怎么实现不用我们去写代码，			每个语言都有**堆**这种数据结构的实现，我们直接拿来用就行了。其实，在step2中将(B, 5)和(C, 1)加入queue_list时就已经自动排好			了 ，此时queue_list=[ (C, 1), (B, 5) ] (**准确**)
+**说明**:   调整queue_list，按距离从小到大排序，距离小的点放在队首，距离大的点放在队尾。为什么这样调整呢？我们每次遍历都希望从距离较短的点开始扩展，然后再去处理距离长的点，这样才能**保证遍历到的每个点都是从起点到该点的最短路径**。例如：如果从距离较长的点开始遍历，比如此时先遍历B再遍历C的话，因为每个点只会遍历一次，就导致A到B的最短距离就变成了5，这是不对的。那具体怎么实现这种调整呢？不用我们去考虑实现，每个语言都有**堆**这种数据结构，我们直接拿来用就行了。其实，在step2中将(B, 5)和(C, 1)加入queue_list时就已经自动调整好了 ，此时queue_list=[ (C, 1), (B, 5) ] (**准确**)
 
 | 变量          | 值         | 说明                            |
 | :------------ | ---------- | --------------------------------|
-| queue_list    | [ (C, 1), (B, 5) ] | 用堆结构排好序 |
+| queue_list    | [ (C, 1), (B, 5) ] | 用堆结构自动排好序 |
 | visited_list  | [ A ]      | 已经走过的点，目前只有A |
-| parent_dict   | { A:None, B:A, C:A } | B,C点的爸爸**暂时**是A |
-| distance_dict | { A:0, B:5, C:1 } | A到B和C点的距离**暂时**是5和1 |
+| **parent_dict** | { A:None, B:A, C:A } | B,C点的爸爸**暂时**是A |
+| **distance_dict** | { A:0, B:5, C:1 } | A到B和C点的距离**暂时**是5和1 |
 
-step3: 继续从queue_list里取出队首点(C, 1)
+step3: 继续从queue_list里取出队首点(C, 1)，将C加入到visited_list里表示走过了，即visited_list=[ A, C ]。
+
+step4: 获取和C相连的点，即A,B,D,E。A已经走过了。计算从起点A到B,D,E的距离，怎么计算呢？我们是从A点出发的，目前在C点，要计算从A到B的距离，即 `A到C的距离 + C到B的距离 = distance_dict['C'] + 2 = 3`。即(B, 3)，同理，(D, 5), (E,9)。接下来做3个操作：
+
+- 将3个点加入到queue_list，即queue_list=[ (B, 3), (B, 5), (D, 5), (E,9) ] (**准确**)
+- 将3个点**更新**到parent_dict，即parent_dict={ A:None, B:C, C:A, D:C, E:C }
+- 将3个点**更新**到distance_dict，即distance_dict={ A:0, B:3, C:1, D:5, E:9 }
+
+**说明**：**更新**的依据是什么呢？依据是已经存在的，比较距离，选择短的更新，不存在的，直接插入。比如：B点已经在parent_dict和distance_dict中了，但是此时的B的距离3，比已有的5小，需要更新为3，而D,E不在其中，直接插入即可。
+
+| 变量              | 值                                | 说明               |
+| :---------------- | --------------------------------- | ------------------ |
+| queue_list        | [ (B, 3), (B, 5), (D, 5), (E,9) ] | 用堆结构自动排好序 |
+| visited_list      | [ A, C ]                          | 已经走过的点，A，C |
+| **parent_dict**   | { A:None, B:C, C:A, D:C, E:C }    | **暂时**的结果     |
+| **distance_dict** | { A:0, B:3, C:1, D:5, E:9 }       | **暂时**的结果     |
+
+step5: 继续从queue_list里取出队首点(B, 3)， 以此类推，直到遍历完所有点自动结束，或判断到达目的地中断结束。
 
 ---
 
 ### 3.代码
+
+```
+from queue import PriorityQueue
+
+def init_distence(graph, s):
+	distance_dict = {}
+	for vert in graph:
+		distance_dict[vert] = float('inf') if vert != s else 0
+	return distance_dict
+
+def dijkstra(graph, s):
+	queue_list = PriorityQueue()
+	queue_list.put((0,s))
+	visited_list = set()
+	parent_dict = {s:None}
+	distance_dict = init_distence(graph, s)
+
+	while queue_list.qsize() > 0:
+		dis, point = queue_list.get()
+		if point not in visited_list:
+			visited_list.add(point)
+			
+			nodes = graph[point]
+			for node in nodes:
+				if node not in visited_list:
+					now_dist = dis + graph[point][node]
+					if now_dist < distance_dict[node]:
+						queue_list.put((now_dist,node))
+						parent_dict[node] = point
+						distance_dict[node] = now_dist
+	return parent_dict, distance_dict
+
+if __name__=='__main__':
+	graph = {
+		'A':{'B':5,'C':1},
+		'B':{'A':5,'C':2,'D':1},
+		'C':{'A':1,'B':2,'D':4,'E':8},
+		'D':{'B':1,'C':4,'E':3,'F':6},
+		'E':{'C':8,'D':3},
+		'F':{'D':6}
+		}
+	parent, distence = dijkstra(graph, 'A')
+	print(parent)
+	print(distence)
+```
 
 ---
 
