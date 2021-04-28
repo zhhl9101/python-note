@@ -115,29 +115,40 @@ step5: 继续从queue_list里取出队首点(B, 3)， 以此类推，直到遍�
 ### 3.代码
 
 ```
+#引入优先队列，自动调整优先级，将距离较短的放在队首，距离较长的放在队尾。
 from queue import PriorityQueue
 
+#定义函数，初始化起点到所有点的距离为无穷大，后面只需替换这个值即可。
 def init_distence(graph, s):
     distance_dict = {}
     for vert in graph:
         distance_dict[vert] = float('inf') if vert != s else 0
     return distance_dict
 
+#主函数。
 def dijkstra(graph, s):
+    #初始化2个中间变量和2个结果变量。
     queue_list = PriorityQueue()
     queue_list.put((0,s))
     visited_list = set()
     parent_dict = {s:None}
     distance_dict = init_distence(graph, s)
 
+    #遍历队列，直到队列为空，表示所有点都遍历结束。
+    #如需遍历到目的点结束，在代码中加个if判断和break跳出循环即可。
     while queue_list.qsize() > 0:
+        #取出队首点。
         dis, point = queue_list.get()
+        #如果该点没有访问过。
         if point not in visited_list:
             visited_list.add(point)
-            
+            #从图中取出当前点所有的邻接点，开始循环这些点。
             nodes = graph[point]
             for node in nodes:
                 if node not in visited_list:
+                    #计算从起点经过当前点到达邻接点的距离。
+                    #如果该距离小于已保存的距离，即代表找到了一条更短的路径，
+                    #更新父亲点和这个更短的距离。
                     now_dist = dis + graph[point][node]
                     if now_dist < distance_dict[node]:
                         queue_list.put((now_dist,node))
@@ -145,7 +156,9 @@ def dijkstra(graph, s):
                         distance_dict[node] = now_dist
     return parent_dict, distance_dict
 
-if __name__=='__main__':
+if __name__=='__main__':    # **程序入口**
+    #将有权图表示为字典结构。
+    #比如：和A相连的点是B和C,距离为5和1,即可表示为'A':{'B':5,'C':1}。
     graph = {
         'A':{'B':5,'C':1},
         'B':{'A':5,'C':2,'D':1},
@@ -154,6 +167,7 @@ if __name__=='__main__':
         'E':{'C':8,'D':3},
         'F':{'D':6}
         }
+    #调用主函数，得到2个结果。
     parent, distence = dijkstra(graph, 'A')
     print(parent)
     print(distence)
