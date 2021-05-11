@@ -25,11 +25,11 @@
 
 无权图如下所示：
 
- <img src="..\pictures\no-weight.png" title="无权图" width="400px" height="200px">
+ <img src="..\pictures\algorithm\no-weight.png" title="无权图" width="400px" height="200px">
 
 有权图如下所示：
 
- <img src="..\pictures\weight.png" title="有权图" width="400px" height="200px">
+ <img src="..\pictures\algorithm\weight.png" title="有权图" width="400px" height="200px">
 
 以上面的有权图为例，从 **A** 到 **B** 的距离是 **5km**，从 **A** 到 **C** 的距离是 **1km**，以此类推。
 
@@ -70,7 +70,7 @@
 
 2）开始遍历。
 
- <img src="..\pictures\weight.png" title="有权图" width="400px" height="200px">
+ <img src="..\pictures\algorithm\weight.png" title="有权图" width="400px" height="200px">
 
 step1: 从queue_list里取出队首点(A, 0)， 将A加入到visited_list里表示走过了，即visited_list=[ A ]。
 
