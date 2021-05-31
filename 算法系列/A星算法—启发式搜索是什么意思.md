@@ -5,13 +5,11 @@
 ---
 ### 1.介绍
 
-<video src="..\videos\algorithm\greedy.mp4" controls="controls">
+<img src="..\pictures\algorithm\greedy.jpg">
 您的浏览器不支持 video 标签。
-</video>
 
-<video src="..\videos\algorithm\greedy1.mp4" controls="controls">
+<img src="..\pictures\algorithm\greedy1.jpg">
 您的浏览器不支持 video 标签。
-</video>
 
 ---
 
