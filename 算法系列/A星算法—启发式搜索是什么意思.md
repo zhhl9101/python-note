@@ -5,6 +5,8 @@
 ---
 ### 1.介绍
 
+<video id="video" controls="" preload="none" poster="..\pictures\algorithm\greedy.jpg"> <source id="mp4" src="..\videos\1111.mp4" type="video/mp4"> </video>
+
 <img src="..\pictures\algorithm\greedy.jpg">
 您的浏览器不支持 video 标签。
 
