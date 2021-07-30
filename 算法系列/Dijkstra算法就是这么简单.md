@@ -116,7 +116,7 @@ step5: 继续从queue_list里取出队首点(B, 3)， 以此类推，直到遍�
 
 ### 3.代码
 
-```
+```python
 #引入优先队列，自动调整优先级，将距离较短的放在队首，距离较长的放在队尾。
 from queue import PriorityQueue
 
