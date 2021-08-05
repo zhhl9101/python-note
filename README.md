@@ -21,4 +21,5 @@ IT学习笔记，Python编程。
 - Python笔记
   - [字典defaultdict和OrderedDict的使用](Python/字典defaultdict和OrderedDict的使用.md)
   - [装饰器，你装饰了我的梦](Python/装饰器，你装饰了我的梦.md)
+  - [json模块，4个方法](Python\json模块，4个方法.md)
 
