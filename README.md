@@ -19,7 +19,6 @@ IT学习笔记，Python编程。
 - 算法训练营
   - [11-盛水最多的容器-中](算法训练营/神奇的双指针/11-盛水最多的容器-中.md)
 - Python笔记
-  - [字典defaultdict和OrderedDict的使用](Python/字典defaultdict和OrderedDict的使用.md)
+  - [字典defaultdict和OrderedDict](Python/字典defaultdict和OrderedDict的使用.md)
   - [装饰器，你装饰了我的梦](Python/装饰器，你装饰了我的梦.md)
-  - [json模块，4个方法](Python\json模块，4个方法.md)
-
+  - [json模块，4个方法](Python/json模块，4个方法.md)
