@@ -1,29 +1,80 @@
-# 一文解决函数参数的问题
+# Python索引为什么从0开始
 
 <p align="right">2021年8月，时间结余。</p>
 
 ---
 
-## 1. json模块源码
-以json源码为例。[cpython/__init__.py at 3.9 · python/cpython (github.com)](https://github.com/python/cpython/blob/3.9/Lib/json/__init__.py)
-
-其中`load()`函数的定义是这样的：
-
-```python
-def load(fp, *, cls=None, object_hook=None, parse_float=None,
-        parse_int=None, parse_constant=None, object_pairs_hook=None, **kw):
-    return loads(fp.read(),
-        cls=cls, object_hook=object_hook,
-        parse_float=parse_float, parse_int=parse_int,
-        parse_constant=parse_constant, object_pairs_hook=object_pairs_hook, **kw)
-```
-
-函数实现就是一行，调用`loads()`方法。
-
-但是，我们发现函数定义里参数众多，有4种类型的：fp，*，cls=None，**kw
-
-下面我们就看看这几种参数的意义。
+ <img src="..\pictures\python\index0.jpg" title="盛水最多的容器" width="400px" height="180px">
 
 ---
 
-## 2. 位置参数、关键字参数、默认可省略参数、可变不定长参数、*args、**kwargs
+## 1. 引用 Python 之父 Guido van Rossum 本人语录.
+
+> Twitter上有人问我为什么 Python 的索引从 0 开始。
+>
+> 我记得当时我也考虑过很多因素。Python 借鉴最多的 ABC 语言索引是从 1 开始的，而另一个对 Python 影响很大的是 C 语言，索引从 0 开始。我最初接触的几门语言（Algol，Fortran，Pascal）的索引有从 1 开始的，也有其它方式的。
+>
+> 我想，当时决定索引应该从 0 开始的关键因素是**切片操作**。
+>
+> 例子：用户使用切片的2个场景，获取最前面的 n 个值，或者第 i 个之后的 n 个值。
+>
+> 显然，最好是这两种操作都不需要使用什么奇怪的 +1 或 -1 来计算位数。
+>
+> **如果索引从 0 开始，并使用半开区间，这2种操作的表达式可以非常优雅：a[:n] 或 a[i:i+n]，前面一个表达式等价于 a[0:n]。**
+>
+> 如果索引从 1 开始，要用表达式 a[:n] 而不是 a[:n+1] 表示最前面的 n 个值，就必须使用**闭区间**，或者将切片句法改为用第一个参数表示切片的第一个元素，第二个参数 n 表示切片长度。
+>
+> 若使用闭区间，表达式总是不够优雅，取第 i 个之后的 n 个值的表达式是 a[i:i+n-1]。
+>
+> 若将切片句法改为另一种句法，这样我们就可以直接用表达式 a[i:n]——事实上 ABC 就是这么干的。
+>
+> 至于这种做法能不能在其它地方也保持同样优雅呢？关于这一点，我的记忆已经模糊了。
+>
+> 不过，我想，我显然被半开区间的优雅所吸引了。
+>
+> 特别是对毗邻区间进行切片时，第一个表达式的结尾正好是第二个表达式的开头，实在是非常美妙。
+>
+> 比如，如果我们以索引 i 和 j 为间隔，把一个字符串分为三个部分，表达式即为 a[:i]，a[i:j]，a[j:]。简洁，优雅。
+>
+> 这就是为什么 Python 的索引是从 0 开始的。
+
+因为 python 是用 C 语言写的，做为 C 的主要数据结构，数组是从 0 开始索引的。这在 C 中是很基础的，以至于如果改变索引从 1 开始将会需要大量的工作。语言往往从他们的父辈中继承许多基本的特性。
+
+由 C 衍生出来的语言倾向于从0开始索引，比如 C++，objective C，Java，Python， Perl， Javascript 和其它许多语言。
+
+由 Fortran 衍生出来的语言则往往从1开始索引，就像 Matalb 和 SimScript 一样。
+
+当然，这些继承不是必须的。
+
+---
+
+## 2. 为什么 C 语言索引从 0 开始？
+
+#### 原因一：减少 CPU 指令运算
+
+ （1）下标从 0 开始：
+
+ 数组寻址：`arr[i] = base_address + i * type_size`
+
+其中 base_address 为数组 arr 首地址，arr0 就是偏移量为 0 的数组，即数组 arr 首地址；i 为偏移量，type_size 为数组类型字节数，比如 int 为 32 位，即 4 个字节。
+
+ （2）下标从 1 开始：
+
+ 数组寻址：`arr[i] = base_address + （i-1）* type_size`
+
+这种方式每次 CPU 寻址需要多一次`i-1`的操作，即多了一次减法的指令运算。
+
+对于数组这种基础数据结构，无论在哪种高级程序语言中，都会被频繁的使用，因此要尽量减少其消耗 CPU 资源。
+
+#### 原因二：物理内存的地址是从0开始的
+
+计算机主存是多个连续字节大小的单元组成的数组，每个字节都对应唯一的物理地址，第一个字节的地址为 0。
+
+---
+
+## 附录
+
+1. [为什么数组下标是从0开始？ - 云+社区 - 腾讯云 (tencent.com)](https://cloud.tencent.com/developer/article/1359222)
+2. [为什么python中索引从0开始 · QIWIHUI](https://qiwihui.com/qiwihui-blog-14/)
+3. [23. 为什么Python索引从0开始？ - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/73936923)
+

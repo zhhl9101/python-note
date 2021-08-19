@@ -24,3 +24,4 @@ IT学习笔记，Python编程。
   - [装饰器，你装饰了我的梦](Python/装饰器，你装饰了我的梦.md)
   - [json模块，4个方法](Python/json模块，4个方法.md)
   - [Python函数和方法的区别](Python/Python函数和方法的区别.md)
+  - [Python索引为什么从0开始](Python/Python索引为什么从0开始.md)
