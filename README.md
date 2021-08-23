@@ -25,3 +25,4 @@ IT学习笔记，Python编程。
   - [json模块，4个方法](Python/json模块，4个方法.md)
   - [Python函数和方法的区别](Python/Python函数和方法的区别.md)
   - [Python索引为什么从0开始](Python/Python索引为什么从0开始.md)
+  - [一文解决函数参数的问题](Python/一文解决函数参数的问题.md)
